@@ -1,22 +1,32 @@
 import 'react-native-gesture-handler';
+import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer} from '@react-navigation/native';
 
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView, StyleSheet} from 'react-native';
+import HomeScreen from './src/screens/HomeScreen';
+import ControlScreen from './src/screens/ControlScreen';
+import HomeScreenButtons from './src/components/HomeScreenButtons';
+import { RootSiblingParent } from 'react-native-root-siblings';
+
+const Stack = createStackNavigator()
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your adsadppdsdad!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <StatusBar></StatusBar>
+      <Stack.Navigator 
+        screenOptions={{
+          headerShown: false
+        }}  
+        >
+        <Stack.Screen name="HomeScreen" component={HomeScreen}/>
+        <Stack.Screen name="ControlScreen" component={ControlScreen}/>
+      </Stack.Navigator>
+      <HomeScreenButtons></HomeScreenButtons>
+    </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
 });
