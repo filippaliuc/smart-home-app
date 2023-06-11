@@ -1,18 +1,84 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const ControlCard = ({ title, onPress }) => {
-  return (
-    <TouchableOpacity
-      style={styles.card}
-      activeOpacity={0.5}
-      onPress={onPress}
-    >
-      <View style={styles.cardContent}>
-        <Text style={styles.title}>{title}</Text>
-      </View>
-    </TouchableOpacity>
-  );
+const ControlCard = ({ label, title, onPress }) => {
+
+    switch (label) {
+        case 'light': 
+            componentToRender = (
+                <TouchableOpacity
+                    style={styles.card}
+                    activeOpacity={0.5}
+                    onPress={onPress}
+                >
+                    <View style={styles.cardContent}>
+                        <FontAwesome name="lightbulb-o" size={24} color={'#eeb00b'} />
+                        <Text style={styles.title}>{title}</Text>
+                    </View>
+                </TouchableOpacity>
+            )
+            break;
+        case 'temperature': 
+            componentToRender = (
+                <TouchableOpacity
+                    style={styles.card}
+                    activeOpacity={0.5}
+                    onPress={onPress}
+                >
+                    <View style={styles.cardContent}>
+                        <Icon name="thermometer" size={24} color={'red'} />
+                        <Text style={styles.title}>{title}</Text>
+                    </View>
+                </TouchableOpacity>
+            )
+            break;
+        
+        case 'humidity': 
+        componentToRender = (
+            <TouchableOpacity
+                style={styles.card}
+                activeOpacity={0.5}
+                onPress={onPress}
+            >
+                <View style={styles.cardContent}>
+                    <Icon name="water-percent" size={24} color={'blue'} />
+                    <Text style={styles.title}>{title}</Text>
+                </View>
+            </TouchableOpacity>
+        )
+        break;
+        case 'blinds': 
+            componentToRender = (
+                <TouchableOpacity
+                    style={styles.card}
+                    activeOpacity={0.5}
+                    onPress={onPress}
+                >
+                    <View style={styles.cardContent}>
+                        <Icon name="blinds" size={24} color={'grey'} />
+                        <Text style={styles.title}>{title}</Text>
+                    </View>
+                </TouchableOpacity>
+            )
+            break;
+        default:
+            componentToRender = (
+                <TouchableOpacity
+                    style={styles.card}
+                    activeOpacity={0.5}
+                    onPress={onPress}
+                >
+                    <View style={styles.cardContent}>
+                        <Text style={styles.title}>{title}</Text>
+                    </View>
+                </TouchableOpacity>
+            )
+            break;
+    }
+
+    return componentToRender;
 };
 
 const styles = StyleSheet.create({

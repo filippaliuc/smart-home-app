@@ -1,26 +1,24 @@
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import HomeScreenButtons from '../components/HomeScreenButtons'
 import { RootSiblingParent } from 'react-native-root-siblings';
-import { database } from '../../firebase';
 import ControlCard from '../components/ControlCard';
 
 const ControlScreen = () => {
   return (
     <RootSiblingParent>
-      <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>Control</Text>
         </View>
         <View style={styles.row}>
-            <ControlCard title={"ceva"}/>
-            <ControlCard title={"ceva"}/>
+            <ControlCard label={"light"} title={"Lumini"}/>
+            <ControlCard label={"temperature"} title={"Temperatură"}/>
         </View>
         <View style={styles.row}>
-            <ControlCard title={"ceva"}/>
-            <ControlCard title={"ceva"}/>
+            <ControlCard label={"humidity"} title={"Umiditate"}/>
+            <ControlCard label={"blinds"} title={"Jaluzele"}/>
         </View>
-      </View>
+      </ScrollView>
     </RootSiblingParent>
   )
 }
@@ -31,8 +29,9 @@ const styles = StyleSheet.create({
   container: {
     marginTop: '6%',
     marginHorizontal: 20,
-    flex: 1,
+    flexGrow: 1,
     alignItems: 'center',
+    paddingBottom: 20,
   },
   titleContainer: {
     backgroundColor: '#F5F5F5',
