@@ -3,31 +3,44 @@ import React, { useEffect, useState } from 'react'
 import HomeScreenButtons from '../components/HomeScreenButtons'
 import { RootSiblingParent } from 'react-native-root-siblings'
 import { database } from '../../firebase'
-import { onValue, ref} from 'firebase/database'
+import { onValue, ref, off} from 'firebase/database'
+import InformationCard from '../components/InformationCard'
 
 
 const HomeScreen = () => {
     
-    [data, setData] = useState()
+    const [signalData, setSignalData] = useState(null)
 
     useEffect(() => {
-        setData(readSignalData())
-    })
+        readSignalData()
+    },[])
 
-    function readSignalData() {
-        const signalRef = ref(database, 'semnale')
+    function readSignalData () {
+        const signalRef = ref(database, 'semnale');
         onValue(signalRef, (snapshot) => {
-            return snapshot.val();
-        }) 
-    }
+            const tempData = snapshot.val();
+            if (tempData) {
+                setSignalData(tempData);
+                console.log(signalData)
+            }
+        });
 
-    console.log()
+        // Clean up the event listener when the component unmounts
+        return () => {
+            off(signalRef);
+        };
+    }
 
     return (
         <RootSiblingParent>
             <View style={styles.container}> 
-                <Text>{data}</Text>
-                {/* <HomeScreenButtons></HomeScreenButtons> */}
+                <View style={styles.titleContainer}>
+                    <Text style={styles.title}>Informații</Text>
+                </View>
+                <InformationCard value={signalData && signalData["temperatura(C)"]} label={'Temperatură(°C):'}/>
+                <InformationCard value={signalData && signalData["lumina"] == 0 ? 'zi' : 'noapte'} label={'Timpul zilei: '}/>
+                <InformationCard value={signalData && signalData["umiditate(%)"]} label={'Umiditate(%):'}/>
+                {/* <InformationCard value={signalData["distanta(cm)"]} label={'Distanța(cm):'}/> */}
             </View>
         </RootSiblingParent>
     )
@@ -39,6 +52,16 @@ const styles = StyleSheet.create({
     container: {
         marginTop: '6%',
         flex: 1,
-        justifyContent: 'flex-end'
-    }
+    },
+    titleContainer: {
+        backgroundColor: '#F5F5F5',
+        paddingHorizontal: 16,
+        paddingVertical: 12,
+        alignItems: 'center',
+        marginBottom: 10,
+      },
+      title: {
+        fontSize: 30,
+        fontWeight: 'bold',
+      },
 })
