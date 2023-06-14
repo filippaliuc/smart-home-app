@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import HomeScreenButtons from '../components/HomeScreenButtons'
 import { RootSiblingParent } from 'react-native-root-siblings'
 import { database } from '../../firebase'
-import { onValue, ref, off} from 'firebase/database'
+import { onValue, ref, off, update} from 'firebase/database'
 import InformationCard from '../components/InformationCard'
 
 
@@ -13,7 +13,27 @@ const HomeScreen = () => {
 
     useEffect(() => {
         readSignalData()
+        updateControl("temperatura", "centrala", 1)
+        updateControl("temperatura", "clima", 0)
+        updateControl("lumini", "camera3", 1)
+        updateControl("lumini", "camera4", 0)
+        updateControl("jaluzele", "", 0)
+
     },[])
+
+    function updateControl (controlType, key, value) {
+        if(key){
+            const updates = {};
+            updates[key] = value;
+
+            update(ref(database, 'control/' + controlType + '/'), updates).catch(console.error);
+        } else {
+            const updates = {};
+            updates[controlType] = value;
+            update(ref(database, 'control/'), updates).catch(console.error);
+        }
+
+    }
 
     function readSignalData () {
         const signalRef = ref(database, 'semnale');

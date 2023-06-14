@@ -2,8 +2,12 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { RootSiblingParent } from 'react-native-root-siblings';
 import ControlCard from '../components/ControlCard';
+import { useNavigation } from '@react-navigation/native';
 
 const ControlScreen = () => {
+
+  const navigation = useNavigation()
+
   return (
     <RootSiblingParent>
       <ScrollView contentContainerStyle={styles.container}>
@@ -11,8 +15,8 @@ const ControlScreen = () => {
           <Text style={styles.title}>Control</Text>
         </View>
         <View style={styles.row}>
-            <ControlCard label={"light"} title={"Lumini"}/>
-            <ControlCard label={"temperature"} title={"Temperatură"}/>
+            <ControlCard label={"light"} title={"Lumini"} />
+            <ControlCard label={"temperature"} title={"Temperatură"} onPress={() => navigation.navigate("TemperatureScreen")}/>
         </View>
         <View style={styles.row}>
             <ControlCard label={"humidity"} title={"Umiditate"}/>
@@ -48,8 +52,4 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginBottom: 16,
   },
-  // column: {
-  //   flex: 1,
-  //   marginRight: 10,
-  // }
 })
