@@ -15,12 +15,12 @@ const ControlScreen = () => {
           <Text style={styles.title}>Control</Text>
         </View>
         <View style={styles.row}>
-            <ControlCard label={"light"} title={"Lumini"} />
-            <ControlCard label={"temperature"} title={"Temperatură"} onPress={() => navigation.navigate("TemperatureScreen")}/>
+          <ControlCard label={"light"} title={"Lumini"} onPress={() => navigation.navigate("LightsScreen")} />
+          <ControlCard label={"temperature"} title={"Temperatură"} onPress={() => navigation.navigate("TemperatureScreen")} />
         </View>
         <View style={styles.row}>
-            <ControlCard label={"humidity"} title={"Umiditate"}/>
-            <ControlCard label={"blinds"} title={"Jaluzele"}/>
+          <ControlCard label={"humidity"} title={"Umiditate"} />
+          <ControlCard label={"blinds"} title={"Jaluzele"} />
         </View>
       </ScrollView>
     </RootSiblingParent>
