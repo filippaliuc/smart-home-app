@@ -14,6 +14,7 @@ const HomeScreenButtons = () => {
             <TouchableOpacity style={styles.navigationButton} onPress={() => navitagtion.navigate("HomeScreen")}>
                 <Text style={styles.buttonText}>Informatii</Text>
             </TouchableOpacity>
+            <View style={styles.verticalLine} />
             <TouchableOpacity style={styles.navigationButton} onPress={() => navitagtion.navigate("ControlScreen")}>
                 <Text style={styles.buttonText}>Control</Text>
             </TouchableOpacity>
@@ -31,12 +32,17 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         flex: 1,
         padding: 10,
-        borderBottomColor: 'green',
+        borderTopColor: 'black',
         backgroundColor: '#c3d396',
-        borderBottomWidth: 1,
+        borderTopWidth: 1,
         alignItems: 'center'
     },
     buttonText: {
         fontSize: 20
-    }
+    },
+    verticalLine: {
+        width: 1,
+        height: '100%',
+        backgroundColor: 'black',
+    },
 })

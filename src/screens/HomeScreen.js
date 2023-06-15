@@ -3,64 +3,48 @@ import React, { useEffect, useState } from 'react'
 import HomeScreenButtons from '../components/HomeScreenButtons'
 import { RootSiblingParent } from 'react-native-root-siblings'
 import { database } from '../../firebase'
-import { onValue, ref, off, update} from 'firebase/database'
+import { onValue, ref, off, update } from 'firebase/database'
 import InformationCard from '../components/InformationCard'
+import { useIsFocused } from '@react-navigation/native';
 
 
 const HomeScreen = () => {
-    
-    const [signalData, setSignalData] = useState(null)
+
+    const [sensorData, setSensorData] = useState()
+    const [temperature, setTemperature] = useState()
+    const [humidity, setHumidity] = useState()
+    const [light, setLight] = useState()
+
+    const isFocused = useIsFocused()
 
     useEffect(() => {
-        readSignalData()
-        updateControl("temperatura", "centrala", 1)
-        updateControl("temperatura", "clima", 0)
-        updateControl("lumini", "camera3", 1)
-        updateControl("lumini", "camera4", 0)
-        updateControl("jaluzele", "", 0)
-
-    },[])
-
-    function updateControl (controlType, key, value) {
-        if(key){
-            const updates = {};
-            updates[key] = value;
-
-            update(ref(database, 'control/' + controlType + '/'), updates).catch(console.error);
-        } else {
-            const updates = {};
-            updates[controlType] = value;
-            update(ref(database, 'control/'), updates).catch(console.error);
-        }
-
-    }
-
-    function readSignalData () {
         const signalRef = ref(database, 'semnale');
         onValue(signalRef, (snapshot) => {
             const tempData = snapshot.val();
             if (tempData) {
-                setSignalData(tempData);
-                console.log(signalData)
+                setTemperature(tempData["temperatura(C)"])
+                setHumidity(tempData["umiditate(%)"])
+                setLight(tempData["lumina"])
+                console.log(light)
             }
         });
 
-        // Clean up the event listener when the component unmounts
         return () => {
-            off(signalRef);
-        };
-    }
+            off(signalRef)
+        }
+
+    }, [temperature, humidity, light, isFocused])
 
     return (
         <RootSiblingParent>
-            <View style={styles.container}> 
+            <View style={styles.container}>
                 <View style={styles.titleContainer}>
                     <Text style={styles.title}>Informații</Text>
                 </View>
-                <InformationCard value={signalData && signalData["temperatura(C)"]} label={'Temperatură(°C):'}/>
-                <InformationCard value={signalData && signalData["lumina"] == 0 ? 'zi' : 'noapte'} label={'Timpul zilei: '}/>
-                <InformationCard value={signalData && signalData["umiditate(%)"]} label={'Umiditate(%):'}/>
-                {/* <InformationCard value={signalData["distanta(cm)"]} label={'Distanța(cm):'}/> */}
+                <InformationCard value={temperature} label={'Temperatură(°C):'} />
+                <InformationCard value={light ? 'zi' : 'noapte'} label={'Timpul zilei: '} />
+                <InformationCard value={humidity} label={'Umiditate(%):'} />
+                {/* <InformationCard value={sensorData["distanta(cm)"]} label={'Distanța(cm):'}/> */}
             </View>
         </RootSiblingParent>
     )
@@ -79,9 +63,9 @@ const styles = StyleSheet.create({
         paddingVertical: 12,
         alignItems: 'center',
         marginBottom: 10,
-      },
-      title: {
+    },
+    title: {
         fontSize: 30,
         fontWeight: 'bold',
-      },
+    },
 })
