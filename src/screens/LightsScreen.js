@@ -37,6 +37,18 @@ const LightsScreen = () => {
     }, [bathroomState, kitchenState, bedroomState, lampState, turnOffAll])
 
     useEffect(() => {
+
+        if (!bathroomState && !kitchenState && !bedroomState && !lampState) {
+            updateControl("lumini", "stingeTot", true)
+        }
+
+        return () => {
+
+        }
+    }, [bathroomState, kitchenState, bedroomState, lampState])
+
+
+    useEffect(() => {
         if (turnOffAll) {
             updateControl("lumini", "baie", false)
             updateControl("lumini", "bucatarie", false)
@@ -81,7 +93,7 @@ const LightsScreen = () => {
                 <TouchableOpacity
                     style={[styles.button, { backgroundColor: turnOffAll ? '#ccc' : '#c3d396' }]}
                     onPress={() => updateControl("lumini", "stingeTot", !turnOffAll)}
-                // disabled={!turnOffAll}
+                    disabled={!kitchenState && !bathroomState && !bedroomState && !lampState && turnOffAll}
                 >
                     <Text style={styles.buttonText}>Închide toate luminile</Text>
                 </TouchableOpacity>

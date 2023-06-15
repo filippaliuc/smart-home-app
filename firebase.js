@@ -1,6 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import {getDatabase} from "firebase/database";
-
+import { getDatabase } from "firebase/database";
 
 // Initialize Firebase
 const firebaseConfig = {
