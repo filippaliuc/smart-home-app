@@ -193,14 +193,14 @@ const TemperatureScreen = () => {
                     onPress={() => handleAutonomousToggle()}
                     disabled={autonomous}
                 >
-                    <Text style={styles.buttonText}>Autonomous On</Text>
+                    <Text style={styles.buttonText}>Mod autonom On</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={[styles.button, { backgroundColor: autonomous ? '#ccc' : '#c3d396' }]}
                     onPress={() => handleAutonomousToggle()}
                     disabled={!autonomous}
                 >
-                    <Text style={styles.buttonText}>Autonomous Off</Text>
+                    <Text style={styles.buttonText}>Mod autonom Off</Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>

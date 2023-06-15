@@ -20,8 +20,6 @@ const LightCard = ({ label, title, state, onPress }) => {
             </View>
         </TouchableOpacity>
     );
-
-
 };
 
 const styles = StyleSheet.create({
