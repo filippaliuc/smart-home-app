@@ -218,7 +218,7 @@ const styles = StyleSheet.create({
         elevation: 2,
     },
     title: {
-        color: '#c3d396',
+        color: 'black',
         fontSize: 30,
         fontWeight: 'bold',
     },

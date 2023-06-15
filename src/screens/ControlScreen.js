@@ -19,8 +19,8 @@ const ControlScreen = () => {
           <ControlCard label={"temperature"} title={"Temperatură"} onPress={() => navigation.navigate("TemperatureScreen")} />
         </View>
         <View style={styles.row}>
-          <ControlCard label={"humidity"} title={"Umiditate"} />
-          <ControlCard label={"blinds"} title={"Jaluzele"} />
+          <ControlCard label={"humidity"} title={"Umiditate"} onPress={() => navigation.navigate("HumidityScreen")} />
+          <ControlCard label={"blinds"} title={"Jaluzele"} onPress={() => navigation.navigate("BlindsScreen")} />
         </View>
       </ScrollView>
     </RootSiblingParent>
@@ -38,7 +38,6 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   titleContainer: {
-    backgroundColor: '#F5F5F5',
     paddingHorizontal: 16,
     paddingVertical: 12,
     alignItems: 'center',

@@ -1,70 +1,51 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, Slider } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import React from 'react'
+import { RootSiblingParent } from 'react-native-root-siblings';
+import LightCard from '../components/LightCard';
 
 const LightsScreen = () => {
-    const [temperature, setTemperature] = useState(10);
-
-    let thumbColor = '#c3d396';
-
-    if (temperature < 17) {
-        thumbColor = 'blue';
-    } else if (temperature > 30) {
-        thumbColor = 'red';
-    }
 
     return (
-        <View style={styles.container}>
-            <View style={styles.sliderContainer}>
-                <Slider
-                    style={styles.slider}
-                    minimumValue={-20}
-                    maximumValue={100}
-                    value={temperature}
-                    thumbTintColor={thumbColor}
-                    minimumTrackTintColor={thumbColor}
-                    maximumTrackTintColor="#d3d3d3"
-                    disabled
-                />
-                <View
-                    style={[
-                        styles.sliderBar,
-                        { left: `${((temperature + 20) / 120) * 100}%` },
-                    ]}
-                />
-            </View>
-            <Text style={[styles.temperatureText, { color: thumbColor }]}>{temperature}°C</Text>
-        </View>
-    );
-};
+        <RootSiblingParent>
+            <ScrollView contentContainerStyle={styles.container}>
+                <View style={styles.titleContainer}>
+                    <Text style={styles.title}>Lumini </Text>
+                </View>
+                <View style={styles.row}>
+                    <LightCard label={"camera"} title={"Baie"} state={false} />
+                    <LightCard label={"camera"} title={"Bucatarie"} state={false} />
+                </View>
+                <View style={styles.row}>
+                    <LightCard label={"camera"} title={"Dormitor"} state={true} />
+                    <LightCard label={"lampa"} title={"Lampă"} state={true} />
+                </View>
+            </ScrollView>
+        </RootSiblingParent>
+    )
+}
+
+export default LightsScreen
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        marginTop: '6%',
+        marginHorizontal: 20,
+        flexGrow: 1,
         alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'white',
+        paddingBottom: 20,
     },
-    sliderContainer: {
-        width: '80%',
-        height: 80,
-        flexDirection: 'row',
+    titleContainer: {
+        paddingHorizontal: 16,
+        paddingVertical: 12,
         alignItems: 'center',
-        justifyContent: 'center',
+        marginBottom: 10,
     },
-    slider: {
-        flex: 1,
-    },
-    sliderBar: {
-        position: 'absolute',
-        height: 8,
-        width: 8,
-        borderRadius: 4,
-        zIndex: 1,
-    },
-    temperatureText: {
-        fontSize: 36,
+    title: {
+        fontSize: 30,
         fontWeight: 'bold',
     },
-});
-
-export default LightsScreen;
+    row: {
+        flexDirection: 'row',
+        marginBottom: 16,
+    },
+})

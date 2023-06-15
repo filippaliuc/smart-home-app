@@ -9,6 +9,8 @@ import ControlScreen from './src/screens/ControlScreen';
 import HomeScreenButtons from './src/components/HomeScreenButtons';
 import TemperatureScreen from './src/screens/TemperatureScreen';
 import LightsScreen from './src/screens/LightsScreen';
+import HumidityScreen from './src/screens/HumidityScreen'
+import BlindsScreen from './src/screens/BlindsScreen'
 
 const Stack = createStackNavigator()
 
@@ -25,6 +27,9 @@ export default function App() {
         <Stack.Screen name="ControlScreen" component={ControlScreen} />
         <Stack.Screen name="LightsScreen" component={LightsScreen} />
         <Stack.Screen name="TemperatureScreen" component={TemperatureScreen} />
+        <Stack.Screen name="HumidityScreen" component={HumidityScreen} />
+        <Stack.Screen name="BlindsScreen" component={BlindsScreen} />
+
       </Stack.Navigator>
       <HomeScreenButtons></HomeScreenButtons>
     </NavigationContainer>
