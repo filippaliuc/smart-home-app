@@ -7,21 +7,35 @@ const InformationCard = ({ value, label }) => {
     console.log('Card pressed!');
   };
 
-  return (
-    <TouchableOpacity
-      style={styles.card}
-      activeOpacity={1}
-    >
-      <View style={styles.cardContent}>
-        <View style={styles.leftContent}>
-          <Text style={styles.label}>{label}</Text>
+  if (label === "Alarmă de incendiu !") {
+    return (
+      <TouchableOpacity
+        style={[styles.card, { backgroundColor: "red" }]}
+        activeOpacity={1}
+      >
+        <View style={[styles.cardContent, { justifyContent: "center" }]}>
+          <Text style={[styles.value, { color: "white" }]}>{label}</Text>
         </View>
-        <View style={styles.rightContent}>
-          <Text style={styles.value}>{value}</Text>
+      </TouchableOpacity>
+    );
+  }
+  else {
+    return (
+      <TouchableOpacity
+        style={styles.card}
+        activeOpacity={1}
+      >
+        <View style={styles.cardContent}>
+          <View style={styles.leftContent}>
+            <Text style={styles.label}>{label}</Text>
+          </View>
+          <View style={styles.rightContent}>
+            <Text style={styles.value}>{value}</Text>
+          </View>
         </View>
-      </View>
-    </TouchableOpacity>
-  );
+      </TouchableOpacity>
+    );
+  }
 };
 
 const styles = StyleSheet.create({
