@@ -5,10 +5,11 @@ import { onValue, ref, off, update } from 'firebase/database';
 import { database } from '../../firebase';
 
 const TemperatureScreen = () => {
-    const [thermalPlantValue, setThermalPlantValue] = useState(false);
-    const [airConditionerValue, setAirConditionerValue] = useState(false);
+    const [thermalPlantValue, setThermalPlantValue] = useState();
+    const [airConditionerValue, setAirConditionerValue] = useState();
     const [autonomous, setAutonomous] = useState(false);
     const [temperature, setTemperature] = useState();
+
 
     useEffect(() => {
         const signalRef = ref(database, 'semnale');
@@ -38,6 +39,7 @@ const TemperatureScreen = () => {
     }, [temperature]);
 
     useEffect(() => {
+
         if (thermalPlantValue) {
             updateControl("temperatura", "centrala", 0)
         } else {
@@ -49,6 +51,7 @@ const TemperatureScreen = () => {
         } else {
             updateControl("temperatura", "clima", 1)
         }
+
     }, [thermalPlantValue, airConditionerValue])
 
     let thumbColor = '#c3d396';

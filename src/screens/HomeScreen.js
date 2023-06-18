@@ -14,7 +14,7 @@ const HomeScreen = () => {
     const [temperature, setTemperature] = useState()
     const [humidity, setHumidity] = useState()
     const [light, setLight] = useState()
-    const [isFlame, setIsFlame] = useState()
+    const [isFlame, setIsFlame] = useState(false)
 
     const isFocused = useIsFocused()
 
@@ -43,7 +43,7 @@ const HomeScreen = () => {
                 <View style={styles.titleContainer}>
                     <Text style={styles.title}>Informații</Text>
                 </View>
-                {!isFlame && <InformationCard value={isFlame} label={"Alarmă de incendiu !"} />}
+                {isFlame == 1 && <InformationCard value={isFlame} label={"Alarmă de incendiu !"} />}
                 <InformationCard value={temperature} label={'Temperatură(°C):'} />
                 <InformationCard value={light ? 'zi' : 'noapte'} label={'Timpul zilei: '} />
                 <InformationCard value={humidity} label={'Umiditate(%):'} />
