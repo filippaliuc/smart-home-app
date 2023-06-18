@@ -1,7 +1,7 @@
+import { off, onValue, ref, update } from 'firebase/database';
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Slider, Platform, Alert } from 'react-native';
+import { Alert, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { onValue, ref, off, update } from 'firebase/database';
 import { database } from '../../firebase';
 
 const TemperatureScreen = () => {
@@ -35,9 +35,9 @@ const TemperatureScreen = () => {
     useEffect(() => {
 
         if (blindsState) {
-            updateControl("jaluzele", " ", 0)
+            updateControl("jaluzele", "", 0)
         } else {
-            updateControl("jaluzele", " ", 1)
+            updateControl("jaluzele", "", 1)
         }
 
     }, [blindsState])
@@ -142,11 +142,6 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         elevation: 2,
     },
-    title: {
-        color: 'black',
-        fontSize: 30,
-        fontWeight: 'bold',
-    },
     cardContainer: {
         margin: 10,
     },
@@ -169,11 +164,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 22,
     },
-    switchButton: {
-        padding: 5,
-        borderRadius: 10,
-        borderWidth: 1,
-    },
     switchText: {
         fontWeight: 'bold',
         fontSize: 16,
@@ -195,23 +185,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'white',
-    },
-    sliderContainer: {
-        width: '80%',
-        height: 40,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    slider: {
-        flex: 1,
-    },
-    sliderBar: {
-        position: 'absolute',
-        height: 8,
-        width: 8,
-        borderRadius: 4,
-        zIndex: 1,
     },
     blindsText: {
         fontSize: 32,

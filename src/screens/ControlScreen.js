@@ -1,8 +1,8 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { useNavigation } from '@react-navigation/native';
+import React from 'react';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { RootSiblingParent } from 'react-native-root-siblings';
 import ControlCard from '../components/ControlCard';
-import { useNavigation } from '@react-navigation/native';
 
 const ControlScreen = () => {
 

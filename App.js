@@ -1,16 +1,16 @@
-import 'react-native-gesture-handler';
-import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import 'react-native-gesture-handler';
 
 import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView, StyleSheet } from 'react-native';
-import HomeScreen from './src/screens/HomeScreen';
-import ControlScreen from './src/screens/ControlScreen';
+import { StyleSheet } from 'react-native';
 import HomeScreenButtons from './src/components/HomeScreenButtons';
-import TemperatureScreen from './src/screens/TemperatureScreen';
+import BlindsScreen from './src/screens/BlindsScreen';
+import ControlScreen from './src/screens/ControlScreen';
+import HomeScreen from './src/screens/HomeScreen';
+import HumidityScreen from './src/screens/HumidityScreen';
 import LightsScreen from './src/screens/LightsScreen';
-import HumidityScreen from './src/screens/HumidityScreen'
-import BlindsScreen from './src/screens/BlindsScreen'
+import TemperatureScreen from './src/screens/TemperatureScreen';
 
 const Stack = createStackNavigator()
 

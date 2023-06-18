@@ -1,11 +1,7 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const InformationCard = ({ value, label }) => {
-  const handleCardPress = () => {
-    // Handle card press event
-    console.log('Card pressed!');
-  };
 
   if (label === "Alarmă de incendiu !") {
     return (

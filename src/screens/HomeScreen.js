@@ -1,16 +1,14 @@
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { useIsFocused } from '@react-navigation/native'
+import { off, onValue, ref } from 'firebase/database'
 import React, { useEffect, useState } from 'react'
-import HomeScreenButtons from '../components/HomeScreenButtons'
+import { StyleSheet, Text, View } from 'react-native'
 import { RootSiblingParent } from 'react-native-root-siblings'
 import { database } from '../../firebase'
-import { onValue, ref, off, update } from 'firebase/database'
 import InformationCard from '../components/InformationCard'
-import { useIsFocused } from '@react-navigation/native';
 
 
 const HomeScreen = () => {
 
-    const [sensorData, setSensorData] = useState()
     const [temperature, setTemperature] = useState()
     const [humidity, setHumidity] = useState()
     const [light, setLight] = useState()
@@ -43,11 +41,10 @@ const HomeScreen = () => {
                 <View style={styles.titleContainer}>
                     <Text style={styles.title}>Informații</Text>
                 </View>
-                {isFlame == 1 && <InformationCard value={isFlame} label={"Alarmă de incendiu !"} />}
+                {isFlame == 0 && <InformationCard value={isFlame} label={"Alarmă de incendiu !"} />}
                 <InformationCard value={temperature} label={'Temperatură(°C):'} />
-                <InformationCard value={light ? 'zi' : 'noapte'} label={'Timpul zilei: '} />
+                <InformationCard value={!light ? 'zi' : 'noapte'} label={'Timpul zilei: '} />
                 <InformationCard value={humidity} label={'Umiditate(%):'} />
-                {/* <InformationCard value={sensorData["distanta(cm)"]} label={'Distanța(cm):'}/> */}
             </View>
         </RootSiblingParent>
     )

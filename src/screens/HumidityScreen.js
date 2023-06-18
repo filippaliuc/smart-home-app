@@ -1,7 +1,7 @@
+import { off, onValue, ref, update } from 'firebase/database';
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Slider, Platform, Alert } from 'react-native';
+import { Alert, Platform, Slider, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { onValue, ref, off, update } from 'firebase/database';
 import { database } from '../../firebase';
 
 const HumidityScreen = () => {

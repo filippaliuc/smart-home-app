@@ -1,10 +1,9 @@
-import { ScrollView, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import { off, onValue, ref, update } from 'firebase/database';
+import React, { useEffect, useState } from 'react';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { RootSiblingParent } from 'react-native-root-siblings';
-import LightCard from '../components/LightCard';
-import { useEffect } from 'react';
-import { onValue, ref, off, update } from 'firebase/database';
 import { database } from '../../firebase';
+import LightCard from '../components/LightCard';
 
 
 const LightsScreen = () => {
