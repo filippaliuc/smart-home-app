@@ -6,27 +6,29 @@ import { database } from '../../firebase';
 
 const HumidityScreen = () => {
     const [humidifierValue, setHumidifierValue] = useState(false);
-    const [dehumidifierValue, setDeumidifierValue] = useState(false);
+    const [dehumidifierValue, setDehumidifierValue] = useState(false);
     const [autonomous, setAutonomous] = useState(false);
     const [humidity, setHumidity] = useState();
 
     useEffect(() => {
+        // Citește schimbările de umiditate din baza de date
         const signalRef = ref(database, 'semnale');
         onValue(signalRef, (snapshot) => {
             const tempData = snapshot.val();
             if (tempData) {
                 let temp = tempData['umiditate(%)'];
                 setHumidity(temp);
+                // Verifică dacă modul autonom este pornit caz în care ia decizii în controlul umidității de unul singur
                 if (autonomous) {
                     if (temp < 30) {
                         setHumidifierValue(true);
-                        setDeumidifierValue(false);
+                        setDehumidifierValue(false);
                     } else if (temp > 50) {
                         setHumidifierValue(false);
-                        setDeumidifierValue(true);
+                        setDehumidifierValue(true);
                     } else {
                         setHumidifierValue(false);
-                        setDeumidifierValue(false);
+                        setDehumidifierValue(false);
                     }
                 }
             }
@@ -38,6 +40,7 @@ const HumidityScreen = () => {
     }, [humidity]);
 
     useEffect(() => {
+        // Actualizează controlul umidității când se schimbă valorile
         if (humidifierValue) {
             updateControl("umiditate", "umidificator", 0)
         } else {
@@ -51,6 +54,7 @@ const HumidityScreen = () => {
         }
     }, [humidifierValue, dehumidifierValue])
 
+    // Setează culoarea cursorul de pe slider în funcție de umiditate
     let thumbColor = '#c3d396';
     if (humidity < 30) {
         thumbColor = 'red';
@@ -58,38 +62,39 @@ const HumidityScreen = () => {
         thumbColor = 'blue';
     }
 
-
-    const handleThermalPlantSwitch = () => {
+    const handleHumidifierSwitch = () => {
         setHumidifierValue((prevValue) => !prevValue);
     };
 
-    const handleAirConditionerSwitch = () => {
-        setDeumidifierValue((prevValue) => !prevValue);
+    const handleDehumidifierSwitch = () => {
+        setDehumidifierValue((prevValue) => !prevValue);
     };
 
+    // Funcție care setează modul oprit/pornit al modului autonom pentru controlul umidității
     const handleAutonomousToggle = () => {
         setAutonomous((prevState) => !prevState);
         if (autonomous) {
             showAlert('Modul autonom este oprit');
             setHumidifierValue(false);
-            setDeumidifierValue(false);
+            setDehumidifierValue(false);
         } else {
             showAlert('Modul autonom este pornit');
             if (humidity) {
                 if (humidity < 30) {
                     setHumidifierValue(true);
-                    setDeumidifierValue(false);
+                    setDehumidifierValue(false);
                 } else if (humidity > 50) {
                     setHumidifierValue(false);
-                    setDeumidifierValue(true);
+                    setDehumidifierValue(true);
                 } else {
                     setHumidifierValue(false);
-                    setDeumidifierValue(false);
+                    setDehumidifierValue(false);
                 }
             }
         }
     };
 
+    // Dialog modal pentru informarea despre starea configurării autonome
     const showAlert = (message) => {
         if (Platform.OS === 'ios') {
             Alert.alert('', message);
@@ -98,6 +103,7 @@ const HumidityScreen = () => {
         }
     };
 
+    // Funcție care controlează starea de oprit/pornit a umidificatorului și dezumidificatorului
     const handleCardPress = (device) => {
         if (autonomous) {
             showAlert('Modul autonom este pornit');
@@ -105,11 +111,12 @@ const HumidityScreen = () => {
             if (device === 'thermalPlant') {
                 setHumidifierValue((prevValue) => !prevValue);
             } else if (device === 'airConditioner') {
-                setDeumidifierValue((prevValue) => !prevValue);
+                setDehumidifierValue((prevValue) => !prevValue);
             }
         }
     };
 
+    // Actualizează controlul umidității în baza de date 
     function updateControl(controlType, key, value) {
         if (key) {
             const updates = {};
@@ -159,7 +166,7 @@ const HumidityScreen = () => {
                             { backgroundColor: humidifierValue ? '#c3d396' : 'white' },
                             { borderColor: humidifierValue ? '#c3d396' : '#c3d396' },
                         ]}
-                        onPress={handleThermalPlantSwitch}
+                        onPress={() => handleHumidifierSwitch}
                     >
                         <Text style={[styles.switchText, { color: humidifierValue ? 'white' : '#c3d396' }]}>
                             {humidifierValue ? 'On' : 'Off'}
@@ -180,7 +187,7 @@ const HumidityScreen = () => {
                             { backgroundColor: dehumidifierValue ? '#c3d396' : 'white' },
                             { borderColor: dehumidifierValue ? '#c3d396' : '#c3d396' },
                         ]}
-                        onPress={handleAirConditionerSwitch}
+                        onPress={handleDehumidifierSwitch}
                     >
                         <Text style={[styles.switchText, { color: dehumidifierValue ? 'white' : '#c3d396' }]}>
                             {dehumidifierValue ? 'On' : 'Off'}

@@ -1,129 +1,136 @@
-import { off, onValue, ref, update } from 'firebase/database';
 import React, { useEffect, useState } from 'react';
 import { Alert, Platform, Slider, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { off, onValue, ref, update } from 'firebase/database';
 import { database } from '../../firebase';
 
 const TemperatureScreen = () => {
-    const [thermalPlantValue, setThermalPlantValue] = useState();
-    const [airConditionerValue, setAirConditionerValue] = useState();
-    const [autonomous, setAutonomous] = useState(false);
-    const [temperature, setTemperature] = useState();
+  const [thermalPlantValue, setThermalPlantValue] = useState();
+  const [airConditionerValue, setAirConditionerValue] = useState();
+  const [autonomous, setAutonomous] = useState(false);
+  const [temperature, setTemperature] = useState();
 
-
-    useEffect(() => {
-        const signalRef = ref(database, 'semnale');
-        onValue(signalRef, (snapshot) => {
-            const tempData = snapshot.val();
-            if (tempData) {
-                let temp = tempData['temperatura(C)'];
-                setTemperature(temp);
-                if (autonomous) {
-                    if (temp < 17) {
-                        setThermalPlantValue(true);
-                        setAirConditionerValue(false);
-                    } else if (temp > 30) {
-                        setThermalPlantValue(false);
-                        setAirConditionerValue(true);
-                    } else {
-                        setThermalPlantValue(false);
-                        setAirConditionerValue(false);
-                    }
-                }
-            }
-        });
-
-        return () => {
-            off(signalRef);
-        };
-    }, [temperature]);
-
-    useEffect(() => {
-
-        if (thermalPlantValue) {
-            updateControl("temperatura", "centrala", 0)
-        } else {
-            updateControl("temperatura", "centrala", 1)
-        }
-
-        if (airConditionerValue) {
-            updateControl("temperatura", "clima", 0)
-        } else {
-            updateControl("temperatura", "clima", 1)
-        }
-
-    }, [thermalPlantValue, airConditionerValue])
-
-    let thumbColor = '#c3d396';
-    if (temperature < 17) {
-        thumbColor = 'blue';
-    } else if (temperature > 30) {
-        thumbColor = 'red';
-    }
-
-    const handleThermalPlantSwitch = () => {
-        setThermalPlantValue((prevValue) => !prevValue);
-    };
-
-    const handleAirConditionerSwitch = () => {
-        setAirConditionerValue((prevValue) => !prevValue);
-    };
-
-    const handleAutonomousToggle = () => {
-        setAutonomous((prevState) => !prevState);
+  useEffect(() => {
+    // Citește schimbările de temperatură din baza de date
+    const signalRef = ref(database, 'semnale');
+    onValue(signalRef, (snapshot) => {
+      const tempData = snapshot.val();
+      if (tempData) {
+        let temp = tempData['temperatura(C)'];
+        setTemperature(temp);
+        // Verifică dacă modul autonom este pornit caz în care ia decizii în controlul temperaturii de unul singur
         if (autonomous) {
-            showAlert('Modul autonom este oprit');
+          if (temp < 17) {
+            setThermalPlantValue(true);
+            setAirConditionerValue(false);
+          } else if (temp > 30) {
+            setThermalPlantValue(false);
+            setAirConditionerValue(true);
+          } else {
             setThermalPlantValue(false);
             setAirConditionerValue(false);
-        } else {
-            showAlert('Modul autonom este pornit');
-            if (temperature) {
-                if (temperature < 17) {
-                    setThermalPlantValue(true);
-                    setAirConditionerValue(false);
-                } else if (temperature > 30) {
-                    setThermalPlantValue(false);
-                    setAirConditionerValue(true);
-                } else {
-                    setThermalPlantValue(false);
-                    setAirConditionerValue(false);
-                }
-            }
+          }
         }
+      }
+    });
+
+    return () => {
+      off(signalRef);
     };
+  }, [temperature]);
 
-    const showAlert = (message) => {
-        if (Platform.OS === 'ios') {
-            Alert.alert('', message);
-        } else {
-            Alert.alert('', message, [{ text: 'OK' }]);
-        }
-    };
-
-    const handleCardPress = (device) => {
-        if (autonomous) {
-            showAlert('Modul autonom este pornit');
-        } else {
-            if (device === 'thermalPlant') {
-                setThermalPlantValue((prevValue) => !prevValue);
-            } else if (device === 'airConditioner') {
-                setAirConditionerValue((prevValue) => !prevValue);
-            }
-        }
-    };
-
-    function updateControl(controlType, key, value) {
-        if (key) {
-            const updates = {};
-            updates[key] = value;
-
-            update(ref(database, 'control/' + controlType + '/'), updates).catch(console.error);
-        } else {
-            const updates = {};
-            updates[controlType] = value;
-            update(ref(database, 'control/'), updates).catch(console.error);
-        }
+  useEffect(() => {
+    // Actualizează controlul temperaturii când se schimbă valorile
+    if (thermalPlantValue) {
+      updateControl("temperatura", "centrala", 0)
+    } else {
+      updateControl("temperatura", "centrala", 1)
     }
+
+    if (airConditionerValue) {
+      updateControl("temperatura", "clima", 0)
+    } else {
+      updateControl("temperatura", "clima", 1)
+    }
+  }, [thermalPlantValue, airConditionerValue])
+
+  // Setează culoarea cursorul de pe slider în funcție de temperatură
+  let thumbColor = '#c3d396';
+  if (temperature < 17) {
+    thumbColor = 'blue';
+  } else if (temperature > 30) {
+    thumbColor = 'red';
+  }
+
+  const handleThermalPlantSwitch = () => {
+    setThermalPlantValue((prevValue) => !prevValue);
+  };
+
+  const handleAirConditionerSwitch = () => {
+    setAirConditionerValue((prevValue) => !prevValue);
+  };
+
+  // Funcție care setează modul oprit/pornit al modului autonom pentru controlul temperaturii
+  const handleAutonomousToggle = () => {
+    setAutonomous((prevState) => !prevState);
+    if (autonomous) {
+      showAlert('Modul autonom este oprit');
+      setThermalPlantValue(false);
+      setAirConditionerValue(false);
+    } 
+    else {
+      showAlert('Modul autonom este pornit');
+      if (temperature) {
+        if (temperature < 17) {
+          setThermalPlantValue(true);
+          setAirConditionerValue(false);
+        } else if (temperature > 30) {
+          setThermalPlantValue(false);
+          setAirConditionerValue(true);
+        } else {
+          setThermalPlantValue(false);
+          setAirConditionerValue(false);
+        }
+      }
+    }
+  };
+
+  // Dialog modal pentru informarea despre starea configurării autonome
+  const showAlert = (message) => {
+    if (Platform.OS === 'ios') {
+      Alert.alert('', message);
+    } else {
+      Alert.alert('', message, [{ text: 'OK' }]);
+    }
+  };
+
+  // Funcție care controlează starea de oprit/pornit a centralei și a aerului condiționat
+  const handleCardPress = (device) => {
+    if (autonomous) {
+      showAlert('Modul autonom este pornit');
+    } else {
+      if (device === 'thermalPlant') {
+        setThermalPlantValue((prevValue) => !prevValue);
+      } else if (device === 'airConditioner') {
+        setAirConditionerValue((prevValue) => !prevValue);
+      }
+    }
+  };
+
+
+  // Actualizează controlul temperaturii în baza de date 
+  function updateControl(controlType, key, value) {
+    if (key) {
+      const updates = {};
+      updates[key] = value;
+
+      update(ref(database, 'control/' + controlType + '/'), updates).catch(console.error);
+    } else {
+      const updates = {};
+      updates[controlType] = value;
+      update(ref(database, 'control/'), updates).catch(console.error);
+    }
+  }
 
     return (
         <SafeAreaView style={styles.container}>

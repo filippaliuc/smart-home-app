@@ -4,6 +4,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 const InformationCard = ({ value, label }) => {
 
   if (label === "Alarmă de incendiu !") {
+    // Cardul pentru alarmă de incendiu
     return (
       <TouchableOpacity
         style={[styles.card, { backgroundColor: "red" }]}
@@ -16,6 +17,7 @@ const InformationCard = ({ value, label }) => {
     );
   }
   else {
+    // Cardul pentru alte informații
     return (
       <TouchableOpacity
         style={styles.card}

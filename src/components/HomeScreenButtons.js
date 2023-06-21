@@ -7,6 +7,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const HomeScreenButtons = () => {
 
+    // Inițializează navigarea între ecrane
     const navitagtion = useNavigation();
 
     return (

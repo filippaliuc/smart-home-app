@@ -4,9 +4,11 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const ControlCard = ({ label, title, onPress }) => {
+    let componentToRender;
 
     switch (label) {
         case 'light':
+            // Cardul pentru controlul luminii
             componentToRender = (
                 <TouchableOpacity
                     style={styles.card}
@@ -18,9 +20,10 @@ const ControlCard = ({ label, title, onPress }) => {
                         <Text style={styles.title}>{title}</Text>
                     </View>
                 </TouchableOpacity>
-            )
+            );
             break;
         case 'temperature':
+            // Cardul pentru controlul temperaturii
             componentToRender = (
                 <TouchableOpacity
                     style={styles.card}
@@ -32,10 +35,11 @@ const ControlCard = ({ label, title, onPress }) => {
                         <Text style={styles.title}>{title}</Text>
                     </View>
                 </TouchableOpacity>
-            )
+            );
             break;
 
         case 'humidity':
+            // Cardul pentru controlul umidității
             componentToRender = (
                 <TouchableOpacity
                     style={styles.card}
@@ -47,9 +51,10 @@ const ControlCard = ({ label, title, onPress }) => {
                         <Text style={styles.title}>{title}</Text>
                     </View>
                 </TouchableOpacity>
-            )
+            );
             break;
         case 'blinds':
+            // Cardul pentru controlul jaluzelelor
             componentToRender = (
                 <TouchableOpacity
                     style={styles.card}
@@ -61,9 +66,10 @@ const ControlCard = ({ label, title, onPress }) => {
                         <Text style={styles.title}>{title}</Text>
                     </View>
                 </TouchableOpacity>
-            )
+            );
             break;
         default:
+            // Cardul implicit
             componentToRender = (
                 <TouchableOpacity
                     style={styles.card}
@@ -74,7 +80,7 @@ const ControlCard = ({ label, title, onPress }) => {
                         <Text style={styles.title}>{title}</Text>
                     </View>
                 </TouchableOpacity>
-            )
+            );
             break;
     }
 
@@ -84,8 +90,8 @@ const ControlCard = ({ label, title, onPress }) => {
 const styles = StyleSheet.create({
     card: {
         backgroundColor: '#FFF',
-        width: '50%', // Occupies half of the row
-        aspectRatio: 1.2, // Square shape
+        width: '50%', 
+        aspectRatio: 1.2, 
         borderRadius: 8,
         padding: 16,
         shadowColor: '#000',

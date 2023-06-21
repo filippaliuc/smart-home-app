@@ -1,39 +1,42 @@
-import { useIsFocused } from '@react-navigation/native'
-import { off, onValue, ref } from 'firebase/database'
-import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import { RootSiblingParent } from 'react-native-root-siblings'
-import { database } from '../../firebase'
-import InformationCard from '../components/InformationCard'
+import { useIsFocused } from '@react-navigation/native';
+import { off, onValue, ref } from 'firebase/database';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { RootSiblingParent } from 'react-native-root-siblings';
+import { database } from '../../firebase';
+import InformationCard from '../components/InformationCard';
 
 
 const HomeScreen = () => {
 
-    const [temperature, setTemperature] = useState()
-    const [humidity, setHumidity] = useState()
-    const [light, setLight] = useState()
-    const [isFlame, setIsFlame] = useState(false)
+    const [temperature, setTemperature] = useState();
+    const [humidity, setHumidity] = useState();
+    const [light, setLight] = useState();
+    const [isFlame, setIsFlame] = useState(false);
 
-    const isFocused = useIsFocused()
+    // Verifică dacă ecranul este în prim-plan
+    const isFocused = useIsFocused();
 
     useEffect(() => {
         const signalRef = ref(database, 'semnale');
+        
+        // Citește schimbările din baza de date
         onValue(signalRef, (snapshot) => {
             const tempData = snapshot.val();
             if (tempData) {
-                setTemperature(tempData["temperatura(C)"])
-                setHumidity(tempData["umiditate(%)"])
-                setLight(tempData["lumina"])
-                setIsFlame(tempData["foc"])
-                console.log(light)
+                setTemperature(tempData["temperatura(C)"]);
+                setHumidity(tempData["umiditate(%)"]);
+                setLight(tempData["lumina"]);
+                setIsFlame(tempData["foc"]);
+                console.log(light);
             }
         });
 
         return () => {
-            off(signalRef)
+            off(signalRef);
         }
 
-    }, [temperature, humidity, light, isFocused])
+    }, [temperature, humidity, light, isFocused]);
 
     return (
         <RootSiblingParent>
@@ -50,7 +53,7 @@ const HomeScreen = () => {
     )
 }
 
-export default HomeScreen
+export default HomeScreen;
 
 const styles = StyleSheet.create({
     container: {
@@ -67,4 +70,4 @@ const styles = StyleSheet.create({
         fontSize: 30,
         fontWeight: 'bold',
     },
-})
+});

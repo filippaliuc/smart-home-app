@@ -12,6 +12,7 @@ import HumidityScreen from './src/screens/HumidityScreen';
 import LightsScreen from './src/screens/LightsScreen';
 import TemperatureScreen from './src/screens/TemperatureScreen';
 
+// Creează un stack navigator pentru gestionarea navigației între ecrane
 const Stack = createStackNavigator()
 
 export default function App() {

@@ -6,6 +6,7 @@ import ControlCard from '../components/ControlCard';
 
 const ControlScreen = () => {
 
+  // Inițializează navigarea între ecrane
   const navigation = useNavigation()
 
   return (

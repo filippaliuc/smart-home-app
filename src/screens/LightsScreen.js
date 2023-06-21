@@ -14,6 +14,7 @@ const LightsScreen = () => {
     const [kitchenState, setKitchenState] = useState()
     const [turnOffAll, setTurnOffAll] = useState()
 
+    // Citește schimbările luminilor din baza de date 
     useEffect(() => {
         const signalRef = ref(database, 'control/lumini');
         onValue(signalRef, (snapshot) => {
@@ -35,6 +36,7 @@ const LightsScreen = () => {
 
     }, [bathroomState, kitchenState, bedroomState, lampState, turnOffAll])
 
+    // Actualizează steagul stingeTot când se schimbă valorile atributelor
     useEffect(() => {
 
         if (!bathroomState && !kitchenState && !bedroomState && !lampState) {
@@ -46,7 +48,7 @@ const LightsScreen = () => {
         }
     }, [bathroomState, kitchenState, bedroomState, lampState])
 
-
+    // Actualizează starea luminilor când atributul ”turnOffAll” e true în baza de date
     useEffect(() => {
         if (turnOffAll) {
             updateControl("lumini", "baie", false)
@@ -57,12 +59,12 @@ const LightsScreen = () => {
 
     }, [turnOffAll])
 
+    // Actualizează starea luminilor în baza de date 
     function updateControl(controlType, key, value) {
         if (value) {
             console.log("ceva")
             setTurnOffAll(false)
         }
-
 
         if (key) {
             const updates = {};
@@ -73,10 +75,9 @@ const LightsScreen = () => {
             updates[controlType] = value;
             update(ref(database, 'control/'), updates).catch(console.error);
         }
-
-
     }
 
+    // Actualizează starea steagului stingeTot în cazul în care se actualizează starea unei lumini
     function updateTurnOffAll(value) {
         if (value) {
             updateControl("lumini", "stingeTot", false)

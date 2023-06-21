@@ -5,24 +5,28 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { database } from '../../firebase';
 
 const TemperatureScreen = () => {
-    const [blindsState, setBlindsState] = useState(0)
+    const [blindsState, setBlindsState] = useState()
     const [autonomous, setAutonomous] = useState(false);
     const [lightValue, setLightValue] = useState()
 
 
     useEffect(() => {
+        // Citește schimbările de lumină din baza de date
         const signalRef = ref(database, 'semnale');
         onValue(signalRef, (snapshot) => {
             const tempData = snapshot.val();
             if (tempData) {
                 let light = tempData['lumina'];
                 setLightValue(light);
+                // Verifică dacă modul autonom este pornit caz în care poate lua decizii în controlul jaluzelelor
                 if (autonomous) {
                     if (light) {
                         setBlindsState(true)
                     } else {
                         setBlindsState(false)
                     }
+                } else {
+                    setBlindsState(false)
                 }
             }
         });
@@ -33,16 +37,17 @@ const TemperatureScreen = () => {
     }, [lightValue]);
 
     useEffect(() => {
-
+        // Actualizează starea jaluzelelor când se schimbă valorile luminii
         if (blindsState) {
-            updateControl("jaluzele", "", 0)
-        } else {
             updateControl("jaluzele", "", 1)
+        } else {
+            updateControl("jaluzele", "", 0)
         }
 
     }, [blindsState])
 
 
+    // Funcție care setează modul oprit/pornit al modului autonom pentru controlul jaluzelelor
     const handleAutonomousToggle = () => {
         setAutonomous((prevState) => !prevState);
         if (autonomous) {
@@ -58,6 +63,7 @@ const TemperatureScreen = () => {
         }
     };
 
+    // Dialog modal pentru informarea despre starea configurării autonome
     const showAlert = (message) => {
         if (Platform.OS === 'ios') {
             Alert.alert('', message);
@@ -66,6 +72,7 @@ const TemperatureScreen = () => {
         }
     };
 
+    // Funcție care controlează starea de deschis/închis a jaluzelelor
     const handleCardPress = () => {
         if (autonomous) {
             showAlert('Modul autonom este pornit');
@@ -74,6 +81,7 @@ const TemperatureScreen = () => {
         }
     };
 
+    // Actualizează controlul jaluzelelor în baza de date 
     function updateControl(controlType, key, value) {
         if (key) {
             const updates = {};
