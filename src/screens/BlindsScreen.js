@@ -99,8 +99,8 @@ const TemperatureScreen = () => {
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
                 <View style={styles.blindsContainer}>
-                    {blindsState == 0 && <Text style={[styles.blindsText]}> Jaluzele sunt deschise </Text>}
-                    {blindsState == 1 && <Text style={[styles.blindsText]}> Jaluzele sunt inchise </Text>}
+                    {blindsState == false && <Text style={[styles.blindsText]}> Jaluzele sunt deschise </Text>}
+                    {blindsState == true && <Text style={[styles.blindsText]}> Jaluzele sunt inchise </Text>}
                 </View>
             </View>
             <View style={styles.cardContainer}>

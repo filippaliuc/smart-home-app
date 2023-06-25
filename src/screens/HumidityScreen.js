@@ -5,8 +5,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { database } from '../../firebase';
 
 const HumidityScreen = () => {
-    const [humidifierValue, setHumidifierValue] = useState(false);
-    const [dehumidifierValue, setDehumidifierValue] = useState(false);
+    const [humidifierValue, setHumidifierValue] = useState();
+    const [dehumidifierValue, setDehumidifierValue] = useState();
     const [autonomous, setAutonomous] = useState(false);
     const [humidity, setHumidity] = useState();
 
